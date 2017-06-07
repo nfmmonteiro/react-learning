@@ -1,0 +1,86 @@
+- redux concepts
+
+- represent all the state of your application in one single javascript object
+
+- all mutations of the state are explicit:
+	- we can log all state changes
+
+- PRINCIPLE #1: everything that changes in the application should be represented in the application's state tree object
+	- data state
+	- ui state
+
+- PRINCIPLE #2:	the state tree is READ ONLY (immutable). We cannot modify or write to it;
+	- everytime we want a state change, an action needs to be dispatched;
+	- an action is a plain javascript object describing the change;
+		- it has a type property
+
+- Pure / Impure functions
+	- Pure functions: they compute a value based soleny on their inputs; they don't cause any side-effects; they are deterministic; given the same inputs they always return the same output; they don't modify the values passed as inputs;
+
+	- Impure functions: they cause side-effects (updates on database, network requests, operate on the dom, etc.); they make use of non-deterministic functions (random(); new Date(), etc.); they modify the values passed as inputs
+
+- PRINCIPLE #3: state mutations need to be performed using a pure functions that receive the current state of the app and an action and that return the new state
+	- they don't modify the state that is given to it (otherwise the fuction would not be a pure function)
+	- this functions are called reducers;
+
+
+- reducer function:
+	- if it does not understand an action, it must return the current state;
+	- if the current state is undefined, it must initialise it with what it understands by being the initial state of the app
+
+
+Redux library:
+- createStore function from Redux library ( import { createStore } from 'redux'; )
+
+STORE:
+- the store binds together the 3 principles of redux;
+	- it holds the current application state;
+	- it lets you dispatch actions;
+	- it holds the reducer function that knows how to update the state of the app when an action is dispatched;
+
+	const store = createStore(reducerFn);
+
+	- store has 3 main methods:
+		- store.getState() - retrieves the current state of the store;
+		- store.dispatch(action) - dispaches an action to change the state of out application;
+		- store.subscribe(callback) - registers a callback that gets called everytime an action is dispatched;
+
+- not mutate state:
+	- deep-freeze npm library: guarantees that the app state tree does not suffer mutations;
+	- concat array function / es6 spread operator / array slice method
+	- Object.assign({}, object, {property: new_value})
+		- spread operator on objects (it's not es6, it's a proposal for es7) ( return { ...todo, completed: !todo.completed})
+
+- reducer composition:
+	- having diferent reducer functions to manage different parts of the application's state tree;
+	- a reducer can call other reducer functions to delegate or abstract the way certain parts of the application's state tree is updated;
+	- there is though, always a top level reducer function to manage the state of the app
+
+
+- combineReducers:
+	- helper function to assist us with reducer composition
+	- it returns a top level reducer function that combines all the reducers provided in the object;
+
+	- es6 object literal shorthand notation ( { todos, visibilityFilter} is equivalent to { todos: todos, visibilityFilter: visibilityFilter})
+
+
+CONTAINER / PRESENTATIONAL COMPONENTS:
+- container components (smart components) - concerned about behaviour
+- dumb components (presentational components) - just concerned about presenting the data that is passed to it
+
+- approach: first, extract presentational components; then, if there is too much boiler plate (passing many props from parent components to child components), then extract container components
+
+
+
+STORE:
+	- passing the store to the containers via React context feature;
+	- React context feature is a powerfull to share variables between all components of the app component tree;
+	- React context feature needs to be activated on the root component (with component.childContextTypes and getChildrenContext() method) and on the child components that need access to the context (childComponent.contextTypes)
+	- However, gloval variables are usually a BAD IDEA! Also, the context API is not stable, it has changed and it's likely to change again in the future.
+
+STORE WITH REACT-REDUX:
+	- The advance React context feature is a so ommon feature that is already provided on the 'react-redux' npm libary;
+	- 'react-redux' are react bindings to redux library
+	- 'react-redux' provides a Provider component that we can pass a store that then becomes available as a React context feature to it's child components;
+
+	- CONTAINER components: connect(mapStateToProps, mapDispatchToProps)(Component) -> creates a container component for us that subscribes to the store automatically on componentWillMount and unsubscribes on componentWillUnmount
