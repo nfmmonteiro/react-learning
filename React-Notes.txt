@@ -1,0 +1,49 @@
+- class component VS stateless function component
+	- mainly difference is that class component state and stateless function component does not.
+	- function components don't have instances (you cannot have this)
+
+- component propTypes (npm prop-types module) (define types for component's input)
+- component defaultProps (default values for component's properties)
+- props are a collection of values that are meant to be passed as inputs to our component, that are not meant to be changed
+
+- state is a collection of values kept inside the component (that is meant to be managed and changed by the component itself)
+- the only time it's allowed to set the state directly is within the component's constructor. other changes to state object must be done by calling the this.setState(new_state);
+- everytime setState method is called, the render method of the component is called to get the new representation of the component.
+- setState does a Object.assign({}, this.state, new_value) for us - it only updates the part of the state that we tell it to;
+
+- a react component can render other react components
+
+- props.children
+
+- custom validation on propTypes 
+
+- React syntetic event system (normalises events between browsers) - onKeyPress, onCut, onPaste, onCopy, onClick, onFocus, onBlur, onMouseOver, onMouseDown, onMouseUp, onDoubleClick, onTouchStart, onTouchMove, onTouchEnd 
+
+- refs: a way to reference a node / component in our application
+	- ref="the_reference" (this.refs.the_reference.value)
+	- ref={input => this.the_reference = input} (this.the_reference.value)
+	- NOTE: stateless components cannot have refs!!!
+
+- mounting phases
+	- componentWillMount: executed only once, just before the component is mounted into the DOM (ideal to do INIT tasks)
+	- componentDidMount: executed only once, just after the component is mounted to the DOM
+	- componentWillUnmount: executed only once, just before the component is removed from the DOM (ideal to do CLEANUP tasks)
+	
+- updating life cycle methods
+	- componentWillReceiveProps:
+	- shouldComponentUpdate: returns if the component should be re-rendered or not. ( it does not prevent the component's state or props to be updated)
+	- componentDidUpdate
+
+- iterating
+
+- higher order components
+	- purpuse is to share common functionality or information between components
+
+- React.Children (.map / .forEach / .only / .toArray)
+
+- React.cloneElement(child, newProps);
+
+- React dev tools (Chrome Store)
+	- allows you to inspect, for each component, its props, state and listeners;
+
+
