@@ -6,23 +6,17 @@ export class ActionTypes {
 
 /** action creators **/
 
-export const addTodoAction = (text) => {
-    return {
-        type: ActionTypes.ADD_TODO,
-        text
-    };
-};
+export const addTodoAction = (text) => ({
+    type: ActionTypes.ADD_TODO,
+    text
+});
 
-export const completeTodoAction = (id) => {
-    return {
-        type: ActionTypes.COMPLETE_TODO,
-        id
-    };
-};
+export const completeTodoAction = (id) => ({
+    type: ActionTypes.COMPLETE_TODO,
+    id
+});
 
-export const changeFilterAction = (filter) => {
-    return {
-        type: ActionTypes.CHANGE_FILTER,
-        filter
-    };
-};
+export const changeFilterAction = (filter) => ({
+    type: ActionTypes.CHANGE_FILTER,
+    filter
+});

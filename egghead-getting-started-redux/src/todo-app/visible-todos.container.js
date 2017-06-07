@@ -27,19 +27,17 @@ const VisibleTodos = ({activeFilter, todos, onCompleteTodo}) => {
 };
 
 // maps redux state to components props
-const mapStateToProps = (state) => {
-    return {
-        todos: state.todos,
-        activeFilter: state.activeFilter
-    };
-};
+const mapStateToProps = (state) => ({
+    todos: state.todos,
+    activeFilter: state.activeFilter
+});
 
 // maps components behaviour to dispatched actions
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onCompleteTodo: (id) => dispatch(completeTodoAction(id))
-    };
-};
+const mapDispatchToProps = (dispatch) => ({
+    onCompleteTodo(id) {
+        dispatch(completeTodoAction(id))
+    }
+});
 
 // container component (it is concerned about behaviour)
 export const VisibleTodosContainer = connect(mapStateToProps, mapDispatchToProps)(VisibleTodos);

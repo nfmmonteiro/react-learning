@@ -1,14 +1,14 @@
 import {combineReducers} from "redux";
+import { v4 } from "node-uuid";
 import deepFreeze from "deep-freeze";
 import {ActionTypes} from "./action-creators";
 import {FilterTypes} from "./filter-types";
 
-let todoId = 0;
 const todoReducer = (todo = {}, action) => {
     switch (action.type) {
         case ActionTypes.ADD_TODO:
             return {
-                id: ++todoId,
+                id: v4(),
                 text: action.text,
                 completed: false
             };

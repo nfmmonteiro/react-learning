@@ -1,9 +1,22 @@
 import {createStore} from "redux";
+import {throttle} from "lodash-es";
 import {reducers} from "./reducers";
+import {loadState, saveState} from "./local-storage";
 
-const createTodoListStore = () => {
-    console.log('The store is about to be created! Do you see this message logged twice? If yes, dude you have got a problem!');
-    return createStore(reducers);
+const THROTTLE_WAIT = 2500;
+
+export const configureStore = () => {
+
+    const persistedState = loadState();
+    const store = createStore(reducers, persistedState);
+
+    store.subscribe(throttle(() => {
+        saveState(store.getState());
+    }, THROTTLE_WAIT));
+
+    store.subscribe(() => {
+        console.log('store was updated', store.getState());
+    });
+
+    return store;
 };
-
-export const store = createTodoListStore();
