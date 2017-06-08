@@ -2,7 +2,6 @@ import {combineReducers} from "redux";
 import { v4 } from "node-uuid";
 import deepFreeze from "deep-freeze";
 import {ActionTypes} from "./action-creators";
-import {FilterTypes} from "./filter-types";
 
 const todoReducer = (todo = {}, action) => {
     switch (action.type) {
@@ -37,21 +36,6 @@ const todosReducer = (todos = deepFreeze([]), action) => {
     }
 };
 
-const activeFilterReducer = (activeFilter = deepFreeze(FilterTypes.SHOW_ALL), action) => {
-    switch (action.type) {
-
-        case ActionTypes.CHANGE_FILTER:
-            if (activeFilter !== action.filter) {
-                return deepFreeze(action.filter);
-            }
-            return activeFilter;
-
-        default:
-            return activeFilter;
-    }
-};
-
 export const reducers = combineReducers({
-    todos: todosReducer,
-    activeFilter: activeFilterReducer
+    todos: todosReducer
 });

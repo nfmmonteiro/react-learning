@@ -5,31 +5,31 @@ import {FilterTypes} from "./state/filter-types";
 import {EmptyTodoList} from "./empty-todo-list";
 import {TodoList} from "./todo-list";
 
-const VisibleTodos = ({activeFilter, todos, onCompleteTodo}) => {
+const VisibleTodos = ({filter, todos, onCompleteTodo}) => {
 
     const filterTodos = (todos, filter) => {
         switch (filter) {
-            case FilterTypes.SHOW_COMPLETED:
+            case FilterTypes.COMPLETED:
                 return todos.filter(todo => todo.completed);
-            case FilterTypes.SHOW_ACTIVE:
+            case FilterTypes.ACTIVE:
                 return todos.filter(todo => !todo.completed);
             default:
                 return todos;
         }
     };
 
-    let filteredTodos = filterTodos(todos, activeFilter);
+    let filteredTodos = filterTodos(todos, filter);
     if (filteredTodos.length === 0) {
-        return <EmptyTodoList filter={activeFilter}/>
+        return <EmptyTodoList filter={filter}/>
     } else {
         return <TodoList todos={filteredTodos} onCompleteTodo={onCompleteTodo}/>
     }
 };
 
 // maps redux state to components props
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state, ownProps) => ({
     todos: state.todos,
-    activeFilter: state.activeFilter
+    filter: ownProps.activeFilter
 });
 
 // maps components behaviour to dispatched actions
