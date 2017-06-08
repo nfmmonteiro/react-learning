@@ -1,0 +1,16 @@
+nav a {
+    margin: 6px;
+    padding: 2px;
+}
+
+.active {
+    color: red;
+}
+
+.header {
+    border: 1px solid red;
+}
+
+.body {
+    border: 1px solid blue;
+}

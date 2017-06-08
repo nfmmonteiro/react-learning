@@ -1,0 +1,53 @@
+- npm module: react-router-dom (depends on react-router, but that dependency is managed by npm)
+
+- HOC (High Order Component): BrowserRouter
+
+- common imports from react-router-dom:
+	
+	- BrowserRouter: to be used on environments where there is support for the browser history API.
+	- HashRouter: when the app needs to run when no browser history API is available;
+		- hashType="slash|noslash|hashbang"
+	- MemoryRouter: mostly used for testing - the URL does not change
+	- StaticRouter: to be used on server side rendering
+	- NativeRouter: iOS or Android (native environment)
+
+	- Switch - render just the first route that matches
+
+	- Route (path, render, component)
+		- path:
+			- path="/todos"
+			- path="/todos/:todoId" - (:todoId is a mandatory URL param)
+			- path="/todos/:todoId?" - (:todoId is an optional URL param)
+			- path="/todos/:todoId(\d{2}) - (:todoId is a mandatory URL param of 2 numbers - regex is placed inside parenthisis 
+			- path="/todos/:todoId([a-zA-Z]+) - (:todoId is a mandatory URL param of at least one letter
+		
+		- a route without a path will always render
+
+
+	- Link (attrs: to, replace, exact, strict)
+
+	- NavLink (extension of Link, but provides extra attrs: activeStyle, activeClassName, etc)
+		- to attr can receive a string or an object. If query parameters are meant to be passed, then they should be passed on the search property of the to object (to={{pathname='/todos', search: '?filter=all'}})
+
+		- there is nothing on react-router-dom to parse query strings. there are a number of npm libraries that we can use to achieve that. however, with some limited browser support, there is a new web standard to do that (see support on http://caniuse.com/#search=URLSearchParams)
+
+	- render multiple contents under the same route is POSSIBLE and EASY
+
+	- in React Router v4, Routes are just components - therefore they can be placed/mounted anywhere
+
+	- NESTED ROUTER
+		- since in react router v4 routes are just components, it allow us to nest components with its own route definition easily
+
+	- Redirect: redirects to a new route without adding the one that is targeting to the browser history. It must be placed inside a Switch.
+		- <Redirect from="/old" to="/new" />
+		- the most common scenario of use is when we want to override an existing route.
+
+			<Route path="/protected" render={() => {
+				let loggedIn = authService.isLoggedIn();
+				return loggedIn ? <h1>Welcome to your personal page</h1>
+								: <Redirect to="/login" />
+			}} />
+
+	- Prompt: Intecept route changes
+		- <Prompt when={condition} message="Data will be lost. You sure you want to proceed?" /> - to be used inside a Route
+
