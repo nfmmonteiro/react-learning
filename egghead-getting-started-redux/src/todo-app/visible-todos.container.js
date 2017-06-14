@@ -1,5 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
+import {withRouter} from "react-router-dom";
 import {completeTodoAction} from "./state/action-creators";
 import {FilterTypes} from "./state/filter-types";
 import {EmptyTodoList} from "./empty-todo-list";
@@ -13,8 +14,10 @@ const VisibleTodos = ({filter, todos, onCompleteTodo}) => {
                 return todos.filter(todo => todo.completed);
             case FilterTypes.ACTIVE:
                 return todos.filter(todo => !todo.completed);
-            default:
+            case FilterTypes.ALL:
                 return todos;
+            default:
+                throw new Error(`Unknown filter: ${filter}!`);
         }
     };
 
@@ -29,7 +32,7 @@ const VisibleTodos = ({filter, todos, onCompleteTodo}) => {
 // maps redux state to components props
 const mapStateToProps = (state, ownProps) => ({
     todos: state.todos,
-    filter: ownProps.activeFilter
+    filter: (ownProps.match.params.filter || FilterTypes.ALL)
 });
 
 // maps components behaviour to dispatched actions
@@ -40,4 +43,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 // container component (it is concerned about behaviour)
-export const VisibleTodosContainer = connect(mapStateToProps, mapDispatchToProps)(VisibleTodos);
+export const VisibleTodosContainer = withRouter(connect(mapStateToProps, mapDispatchToProps)(VisibleTodos));

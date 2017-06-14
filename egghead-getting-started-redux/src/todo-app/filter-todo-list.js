@@ -1,4 +1,6 @@
 import React from "react";
+import {connect} from "react-redux";
+import {withRouter} from "react-router-dom";
 import {FilterTypes} from "./state/filter-types";
 import {FilterLink} from "./filter-link";
 
@@ -9,8 +11,8 @@ const FILTER_LINKS = [
 ];
 
 // presentational component (does not care about behaviour)
-export const FilterLinkList = ({activeFilter}) => {
-    activeFilter = activeFilter || FilterTypes.ALL;
+let FilterLinkList = ({match}) => {
+    const activeFilter = match.params.filter || FilterTypes.ALL;
     return (
         <span className='filter'>
             {
@@ -22,3 +24,7 @@ export const FilterLinkList = ({activeFilter}) => {
         </span>
     );
 };
+
+FilterLinkList = withRouter(connect()(FilterLinkList));
+
+export {FilterLinkList};
